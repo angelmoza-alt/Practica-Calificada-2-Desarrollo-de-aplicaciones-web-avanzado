@@ -1,0 +1,28 @@
+{
+  "name": "farmacia-backend",
+  "version": "1.0.0",
+  "description": "API REST de Farmacia con Node.js, Express, Sequelize (MySQL) y JWT con roles",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "db:reset": "node app/database/reset.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "author": "Angel Moza Cabanillas",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.5",
+    "express": "^5.2.1",
+    "helmet": "^8.3.0",
+    "jsonwebtoken": "^9.0.3",
+    "morgan": "^1.12.1",
+    "mysql2": "^3.24.5",
+    "sequelize": "^6.37.8"
+  }
+}

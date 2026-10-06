@@ -1,0 +1,29 @@
+# Levanta MySQL 8 (y Adminer para ver las tablas) con Docker:
+#   docker compose up -d
+# MySQL:   localhost:3306  usuario: root  contraseña: root
+# Adminer: http://localhost:8081  (Servidor: mysql, Usuario: root, Contraseña: root)
+# La base de datos "bd_farmacia" la crea Sequelize al iniciar el backend.
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: farmacia-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      TZ: America/Lima
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  adminer:
+    image: adminer
+    container_name: farmacia-adminer
+    restart: unless-stopped
+    ports:
+      - "8081:8080"
+    depends_on:
+      - mysql
+
+volumes:
+  mysql_data:

@@ -1,0 +1,63 @@
+digraph bd_farmacia {
+  graph [rankdir=LR, bgcolor="white", pad=0.4, nodesep=0.6, ranksep=1.2, fontname="Helvetica", label=<<B>bd_farmacia</B> — Diagrama Entidad-Relación>, labelloc=t, fontsize=20];
+  node [shape=plain, fontname="Helvetica", fontsize=12];
+  edge [fontname="Helvetica", fontsize=11, color="#495057", penwidth=1.6];
+
+  laboratorio [label=<
+  <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="6" COLOR="#198754">
+    <TR><TD BGCOLOR="#198754" COLSPAN="2"><FONT COLOR="white"><B>laboratorio</B></FONT></TD></TR>
+    <TR><TD ALIGN="LEFT">🔑 <B>codLab</B></TD><TD ALIGN="LEFT" PORT="pk"><FONT COLOR="#6c757d">INT PK AI</FONT></TD></TR>
+    <TR><TD ALIGN="LEFT">razonSocial</TD><TD ALIGN="LEFT"><FONT COLOR="#6c757d">VARCHAR(100) UQ</FONT></TD></TR>
+    <TR><TD ALIGN="LEFT">direccion</TD><TD ALIGN="LEFT"><FONT COLOR="#6c757d">VARCHAR(150)</FONT></TD></TR>
+    <TR><TD ALIGN="LEFT">telefono</TD><TD ALIGN="LEFT"><FONT COLOR="#6c757d">VARCHAR(15)</FONT></TD></TR>
+    <TR><TD ALIGN="LEFT">email</TD><TD ALIGN="LEFT"><FONT COLOR="#6c757d">VARCHAR(100)</FONT></TD></TR>
+    <TR><TD ALIGN="LEFT">contacto</TD><TD ALIGN="LEFT"><FONT COLOR="#6c757d">VARCHAR(80)</FONT></TD></TR>
+    <TR><TD ALIGN="LEFT">createdAt / updatedAt</TD><TD ALIGN="LEFT"><FONT COLOR="#6c757d">DATETIME</FONT></TD></TR>
+  </TABLE>>];
+
+  medicamento [label=<
+  <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="6" COLOR="#0d6efd">
+    <TR><TD BGCOLOR="#0d6efd" COLSPAN="2"><FONT COLOR="white"><B>medicamento</B></FONT></TD></TR>
+    <TR><TD ALIGN="LEFT">🔑 <B>codMedicamento</B></TD><TD ALIGN="LEFT"><FONT COLOR="#6c757d">INT PK AI</FONT></TD></TR>
+    <TR><TD ALIGN="LEFT">descripcionMed</TD><TD ALIGN="LEFT"><FONT COLOR="#6c757d">VARCHAR(100)</FONT></TD></TR>
+    <TR><TD ALIGN="LEFT">fechaFabricacion</TD><TD ALIGN="LEFT"><FONT COLOR="#6c757d">DATE</FONT></TD></TR>
+    <TR><TD ALIGN="LEFT">fechaVencimiento</TD><TD ALIGN="LEFT"><FONT COLOR="#6c757d">DATE</FONT></TD></TR>
+    <TR><TD ALIGN="LEFT">presentacion</TD><TD ALIGN="LEFT"><FONT COLOR="#6c757d">VARCHAR(50)</FONT></TD></TR>
+    <TR><TD ALIGN="LEFT">stock</TD><TD ALIGN="LEFT"><FONT COLOR="#6c757d">INT</FONT></TD></TR>
+    <TR><TD ALIGN="LEFT">precioVentaUni</TD><TD ALIGN="LEFT"><FONT COLOR="#6c757d">DECIMAL(10,2)</FONT></TD></TR>
+    <TR><TD ALIGN="LEFT">precioVentaPres</TD><TD ALIGN="LEFT"><FONT COLOR="#6c757d">DECIMAL(10,2)</FONT></TD></TR>
+    <TR><TD ALIGN="LEFT">marca</TD><TD ALIGN="LEFT"><FONT COLOR="#6c757d">VARCHAR(50)</FONT></TD></TR>
+    <TR><TD ALIGN="LEFT" PORT="fk_in">🔗 <B>codLab</B> (FK)</TD><TD ALIGN="LEFT" PORT="fk"><FONT COLOR="#6c757d">INT NOT NULL</FONT></TD></TR>
+    <TR><TD ALIGN="LEFT">createdAt / updatedAt</TD><TD ALIGN="LEFT"><FONT COLOR="#6c757d">DATETIME</FONT></TD></TR>
+  </TABLE>>];
+
+  users [label=<
+  <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="6" COLOR="#6c757d">
+    <TR><TD BGCOLOR="#6c757d" COLSPAN="2"><FONT COLOR="white"><B>users</B></FONT></TD></TR>
+    <TR><TD ALIGN="LEFT">🔑 <B>id</B></TD><TD ALIGN="LEFT" PORT="pk"><FONT COLOR="#6c757d">INT PK AI</FONT></TD></TR>
+    <TR><TD ALIGN="LEFT">username</TD><TD ALIGN="LEFT"><FONT COLOR="#6c757d">VARCHAR(30) UQ</FONT></TD></TR>
+    <TR><TD ALIGN="LEFT">email</TD><TD ALIGN="LEFT"><FONT COLOR="#6c757d">VARCHAR(100) UQ</FONT></TD></TR>
+    <TR><TD ALIGN="LEFT">password (bcrypt)</TD><TD ALIGN="LEFT"><FONT COLOR="#6c757d">VARCHAR(100)</FONT></TD></TR>
+  </TABLE>>];
+
+  user_roles [label=<
+  <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="6" COLOR="#6c757d">
+    <TR><TD BGCOLOR="#adb5bd" COLSPAN="2"><B>user_roles</B></TD></TR>
+    <TR><TD ALIGN="LEFT" PORT="u_in">🔗 userId (PK, FK)</TD><TD ALIGN="LEFT" PORT="u"><FONT COLOR="#6c757d">INT</FONT></TD></TR>
+    <TR><TD ALIGN="LEFT" PORT="r_in">🔗 roleId (PK, FK)</TD><TD ALIGN="LEFT" PORT="r"><FONT COLOR="#6c757d">INT</FONT></TD></TR>
+  </TABLE>>];
+
+  roles [label=<
+  <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="6" COLOR="#6c757d">
+    <TR><TD BGCOLOR="#6c757d" COLSPAN="2"><FONT COLOR="white"><B>roles</B></FONT></TD></TR>
+    <TR><TD ALIGN="LEFT">🔑 <B>id</B></TD><TD ALIGN="LEFT" PORT="pk"><FONT COLOR="#6c757d">INT PK</FONT></TD></TR>
+    <TR><TD ALIGN="LEFT">name (user / moderator / admin)</TD><TD ALIGN="LEFT"><FONT COLOR="#6c757d">VARCHAR(20)</FONT></TD></TR>
+  </TABLE>>];
+
+  laboratorio:pk:e -> medicamento:fk_in:w [arrowhead=crow, arrowtail=tee, dir=both, label="  1 : N  \n tiene  ", color="#198754", fontcolor="#198754"];
+  users:pk:e -> user_roles:u_in:w [arrowhead=crow, arrowtail=tee, dir=both, label=" 1 : N "];
+  roles:pk:e -> user_roles:r_in:w [arrowhead=crow, arrowtail=tee, dir=both, label=" 1 : N "];
+
+  { rank=same; laboratorio; users; }
+  { rank=same; medicamento; user_roles; }
+}
